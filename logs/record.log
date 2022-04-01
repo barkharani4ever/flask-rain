@@ -238,3 +238,5 @@
 2022-04-01 03:02:04,948 INFO werkzeug Thread-4 : 172.21.0.1 - - [01/Apr/2022 03:02:04] "GET /login HTTP/1.1" 200 -
 2022-04-01 03:02:07,652 INFO werkzeug Thread-4 : 172.21.0.1 - - [01/Apr/2022 03:02:07] "GET /register HTTP/1.1" 200 -
 2022-04-01 03:02:42,702 INFO werkzeug Thread-4 : 172.21.0.1 - - [01/Apr/2022 03:02:42] "POST /register HTTP/1.1" 200 -
+2022-04-01 03:17:44,130 INFO werkzeug MainThread :  * Detected change in '/home/myuser/app/auth/forms/__init__.py', reloading
+2022-04-01 03:17:44,570 INFO werkzeug MainThread :  * Restarting with stat
