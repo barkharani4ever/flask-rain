@@ -3,7 +3,6 @@ from wtforms import validators
 from wtforms.fields import *
 from wtforms.fields.html5 import EmailField
 
-
 class login_form(FlaskForm):
     email = EmailField('Email Address', [
         validators.DataRequired(),
