@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block content %}
+    {% from 'bootstrap5/form.html' import render_form, render_field, render_form_row %}
+
+    <div class="row">
+
+         <div class="col-7">
+             <h2>Register</h2>
+             {{ render_form(form) }}
+         </div>
+        <div id="message" class="col-5">
+            <div id="letter" class="red">
+                has at least a lower case letter, an upper case letter, a number, and a special character.
+                <div class="progress">
+                    <div id="p-bar" class="progress-bar" style="width: 0%" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .invalid{
+            color: red;
+        }
+        .valid{
+            color: green;
+        }
+    </style>
+
+    <script>
+        let passwordField = document.getElementById("password");
+        let letter = document.getElementById("letter");
+        let lowerCase = 0;
+        let upperCase = 0;
+        let hasNumber = 0;
+        let specialChar = 0;
+
+        //console.log(progress_bar);
+
+        passwordField.onfocus = function() {
+            let message = document.getElementById("message");
+            message.style.display = "block";
+            message.style.border = "1px solid";
+        }
+
+        passwordField.onkeyup = function() {
+            let progress_bar = document.getElementById("p-bar");
+            let p_bar_width_string = progress_bar.style.width;
+            let width_current_value = parseInt(p_bar_width_string.substring(0, p_bar_width_string - 1))
+            width_current_value = width_current_value + 25;
+            let width_string_new_value = width_current_value.toString();
+            let new_width_value = width_string_new_value.concat("%");
+
+
+            //console.log(new_width_value);
+
+            // validate lower case letters
+            let lowerCaseLetters = /[a-z]/g;
+            if (passwordField.value.match(lowerCaseLetters)) {
+                letter.classList.remove("invalid");
+                letter.classList.add("valid");
+                progress_bar.style.width = new_width_value;
+            } else {
+                letter.classList.remove("valid");
+                letter.classList.add("invalid");
+                progress_bar.style.width = "0%";
+            }
+
+            // validate upper case letters
+            let upperCaseLetters = /[A-Z]/g;
+            if (passwordField.value.match(upperCaseLetters)) {
+                letter.classList.remove("invalid");
+                letter.classList.add("valid");
+                progress_bar.style.width = new_width_value;
+            } else {
+                letter.classList.remove("valid");
+                letter.classList.add("invalid");
+                progress_bar.style.width = "0%";
+            }
+
+            // validate numbers
+            let numbers = /[0-9]/g;
+
+            if (passwordField.value.match(numbers)) {
+                letter.classList.remove("invalid");
+                letter.classList.add("valid");
+                progress_bar.style.width = new_width_value;
+            } else {
+                letter.classList.remove("valid");
+                letter.classList.add("invalid");
+                progress_bar.style.width = "0%";
+            }
+
+            //validate special characters
+            let specialCharacters = /[`!@#$%^&*()_+={};':"|,.<>/?~]/;
+
+            if (passwordField.value.match(specialCharacters)) {
+                letter.classList.remove("invalid");
+                letter.classList.add("valid");
+                progress_bar.style.width = new_width_value;
+            } else {
+                letter.classList.remove("valid");
+                letter.classList.add("invalid");
+                progress_bar.style.width = "0%";
+            }
+        }
+    </script>
+
+{% endblock %}

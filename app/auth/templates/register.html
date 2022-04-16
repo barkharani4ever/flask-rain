@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+{% block content %}
+    {% from 'bootstrap5/form.html' import render_form, render_field, render_form_row %}
+
+    <div class="row">
+
+         <div class="col-7">
+             <h2>Register</h2>
+             {{ render_form(form) }}
+         </div>
+        <div id="message" class="col-5">
+            <div id="letter" class="red">
+                has lower case letter, upper case letter, a number, and a special character
+                <div class="progress">
+                    <div id="p-bar" class="progress-bar" role="progressbar" style="width: 0;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .invalid{
+            color: red;
+        }
+        .valid{
+            color: green;
+        }
+    </style>
+
+    <script>
+        let passwordField = document.getElementById("password");
+        let lower_letter = document.getElementById("letter");
+        let upper_letter = document.getElementById("letter");
+        let number = document.getElementById("letter");
+        let special_char = document.getElementById("letter");
+
+        let lowerCase = 0;
+        let upperCase = 0;
+        let hasNumber = 0;
+        let specialChar = 0;
+
+        passwordField.onfocus = function() {
+            let message = document.getElementById("message");
+            message.style.display = "block";
+            message.style.border = "1px solid";
+        }
+
+        passwordField.onkeyup = function() {
+
+            let progress_bar = document.getElementById("p-bar");
+
+            let lower_width;
+            let upper_width;
+            let num_width;
+            let char_width;
+
+            if (lowerCase === 0){
+                let p_bar_lower_width_string = progress_bar.style.width.toString();
+                let width_lower_current_value = parseInt(p_bar_lower_width_string.substring(0, p_bar_lower_width_string.length - 1));
+                width_lower_current_value = width_lower_current_value + 25;
+                let width_lower_string_new_value = width_lower_current_value.toString();
+                lower_width = width_lower_string_new_value.concat("%");
+            }
+            else {
+                lower_width = progress_bar.style.width;
+            }
+
+           if (upperCase === 0){
+                let p_bar_upper_width_string = progress_bar.style.width.toString();
+                let width_upper_current_value = parseInt(p_bar_upper_width_string.substring(0, p_bar_upper_width_string.length - 1));
+                width_upper_current_value = width_upper_current_value + 25;
+                let width_string_new_upper_value = width_upper_current_value.toString();
+                upper_width = width_string_new_upper_value.concat("%");
+            }
+           else {
+               upper_width = progress_bar.style.width;
+           }
+
+            if (hasNumber === 0){
+                let p_bar_num_width_string = progress_bar.style.width.toString();
+                let width_num_current_value = parseInt(p_bar_num_width_string.substring(0, p_bar_num_width_string.length - 1));
+                width_num_current_value = width_num_current_value + 25;
+                let width_string_new_num_value = width_num_current_value.toString();
+                num_width = width_string_new_num_value.concat("%");
+            }
+            else {
+                num_width = progress_bar.style.width;
+            }
+
+            if (specialChar === 0){
+                let p_bar_char_width_string = progress_bar.style.width.toString();
+                let width_char_current_value = parseInt(p_bar_char_width_string.substring(0, p_bar_char_width_string.length - 1));
+                width_char_current_value = width_char_current_value + 25;
+                let width_string_new_char_value = width_char_current_value.toString();
+                char_width = width_string_new_char_value.concat("%");
+            }
+            else {
+                char_width = progress_bar.style.width;
+            }
+
+            // Validate lowercase letters
+            let lowerCaseLetters = /[a-z]/g;
+            if (passwordField.value.match(lowerCaseLetters)) {
+                lower_letter.classList.remove("invalid");
+                lower_letter.classList.add("valid");
+                progress_bar.style.width = lower_width;
+                lowerCase = 1;
+            } else {
+                lower_letter.classList.remove("valid");
+                lower_letter.classList.add("invalid");
+                progress_bar.style.width = "0%";
+                lowerCase = 0;
+            }
+
+            // Validate upper case letters
+            let upperCaseLetters = /[A-Z]/g;
+
+            if (passwordField.value.match(upperCaseLetters)) {
+                upper_letter.classList.remove("invalid");
+                upper_letter.classList.add("valid");
+                progress_bar.style.width = upper_width;
+                upperCase = 1;
+            } else {
+                upper_letter.classList.remove("valid");
+                upper_letter.classList.add("invalid");
+                progress_bar.style.width = "0%";
+                upperCase = 0;
+            }
+
+            //let progress_num_bar = document.getElementById("p-bar");
+
+            // Validate numbers
+            let numbers = /[0-9]/g;
+
+            if (passwordField.value.match(numbers)) {
+                number.classList.remove("invalid");
+                number.classList.add("valid");
+                progress_bar.style.width = num_width;
+                hasNumber = 1;
+            } else {
+                number.classList.remove("valid");
+                number.classList.add("invalid");
+                progress_bar.style.width = "0%";
+                hasNumber = 0;
+            }
+
+           // let progress_char_bar = document.getElementById("p-bar");
+
+            // Validate special characters
+            let specialCharacters = /[`!@#$%^&*()_+={};':"|,.<>/?~]/;
+
+            if (passwordField.value.match(specialCharacters)) {
+                special_char.classList.remove("invalid");
+                special_char.classList.add("valid");
+                progress_bar.style.width = char_width;
+                specialChar = 1;
+            } else {
+                special_char.classList.remove("valid");
+                special_char.classList.add("invalid");
+                progress_bar.style.width = "0%";
+                specialChar = 0;
+            }
+        }
+    </script>
+
+{% endblock %}

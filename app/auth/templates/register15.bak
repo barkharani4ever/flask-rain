@@ -1,0 +1,223 @@
+{% extends "base.html" %}
+{% block content %}
+    {% from 'bootstrap5/form.html' import render_form, render_field, render_form_row %}
+
+    <div class="row">
+
+         <div class="col-7">
+             <h2>Register</h2>
+             {{ render_form(form) }}
+         </div>
+        <div id="message" class="col-5">
+            <div id="letter" class="red">
+                has lower case letter, upper case letter, a number, and a special character
+                <div class="progress">
+                    <div id="p-bar" class="progress-bar" role="progressbar" style="width: 0;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .invalid{
+            color: red;
+        }
+        .valid{
+            color: green;
+        }
+    </style>
+
+    <script>
+        let passwordField = document.getElementById("password");
+        let letter = document.getElementById("letter");
+
+        let id = "p-bar";
+
+        let lowerCase = new Observable(0);
+        let upperCase = new Observable(0);
+        let hasNumber = new Observable(0);
+        let specialChar = new Observable(0);
+
+        /*
+        passwordField.onfocus = function() {
+            let message = document.getElementById("message");
+            message.style.display = "block";
+            message.style.border = "1px solid";
+        }
+
+
+         */
+        function Observable(v) {
+            this.value = v;
+
+            this.valueChangedCallback = null;
+
+            this.setValue = function (v) {
+                if (this.value !== v) {
+                    this.value = v;
+                    this.raiseChangedEvent(v);
+                }
+            };
+
+            this.getValue = function () {
+                return this.value;
+            };
+
+            this.onChange = function (callback) {
+                this.valueChangedCallback = callback;
+            };
+
+            this.raiseChangedEvent = function (v) {
+                if (this.valueChangedCallback) {
+                    this.valueChangedCallback(v);
+                }
+            };
+        }
+
+        function progressBarChange (id, change) {
+
+            let progress_bar = document.getElementById(id);
+
+                let p_bar_width_string = progress_bar.style.width.toString();
+                let width_current_value = parseInt(p_bar_width_string.substring(0, p_bar_width_string.length - 1));
+                let width_string_new_value = width_current_value + change;
+                progress_bar.style.width = width_string_new_value.toString().concat("%");
+
+        }
+
+        lowerCase.onChange(function (v){
+            if (lowerCase === 0) {
+                progressBarChange(id, -25);
+            }
+            else {
+                progressBarChange(id, +25);
+            }
+        });
+
+         upperCase.onChange(function (v){
+            if (v === 0) {
+                progressBarChange(id, -25);
+            }
+            else {
+                progressBarChange(id, +25);
+            }
+        });
+
+         hasNumber.onChange(function (v){
+            if (v === 0) {
+                progressBarChange(id, -25);
+            }
+            else {
+                progressBarChange(id, +25);
+            }
+        });
+
+         specialChar.onChange(function (v){
+            if (v === 0) {
+                progressBarChange(id, -25);
+            }
+            else {
+                progressBarChange(id, +25);
+            }
+        });
+
+        passwordField.onkeyup = function() {
+
+            // Validate lowercase letters
+            let lowerCaseLetters = /[a-z]/g;
+            let upperCaseLetters = /[A-Z]/g;
+            let numbers = /[0-9]/g;
+            let specialCharacters = /[`!@#$%^&*()_+={};':"|,.<>/?~]/;
+
+            /*if (passwordField.value.match(lowerCaseLetters)) {
+                lower_letter.classList.remove("invalid");
+                lower_letter.classList.add("valid");
+                progress_bar.style.width = lower_width;
+                lowerCase = 1;
+            } else {
+                lower_letter.classList.remove("valid");
+                lower_letter.classList.add("invalid");
+                progress_bar.style.width = "0%";
+                lowerCase = 0;
+            }
+
+             */
+
+            //let progress_upper_bar = document.getElementById("p-bar");
+
+            // Validate upper case letters
+
+            /*if (passwordField.value.match(upperCaseLetters)) {
+                upper_letter.classList.remove("invalid");
+                upper_letter.classList.add("valid");
+                progress_bar.style.width = upper_width;
+                upperCase = 1;
+            } else {
+                upper_letter.classList.remove("valid");
+                upper_letter.classList.add("invalid");
+                progress_bar.style.width = "0%";
+                upperCase = 0;
+            }
+
+             */
+
+            //let progress_num_bar = document.getElementById("p-bar");
+
+            // Validate numbers
+
+            /*if (passwordField.value.match(numbers)) {
+                number.classList.remove("invalid");
+                number.classList.add("valid");
+                progress_bar.style.width = num_width;
+                hasNumber = 1;
+            } else {
+                number.classList.remove("valid");
+                number.classList.add("invalid");
+                progress_bar.style.width = "0%";
+                hasNumber = 0;
+            }
+
+
+             */
+           // let progress_char_bar = document.getElementById("p-bar");
+
+            // Validate special characters
+
+            /*if (passwordField.value.match(specialCharacters)) {
+                special_char.classList.remove("invalid");
+                special_char.classList.add("valid");
+                progress_bar.style.width = char_width;
+                specialChar = 1;
+            } else {
+                special_char.classList.remove("valid");
+                special_char.classList.add("invalid");
+                progress_bar.style.width = "0%";
+                specialChar = 0;
+            }
+
+             */
+
+            if (passwordField.value.match(lowerCaseLetters)) {
+                lowerCase.setValue(1);
+            } else {
+                lowerCase.setValue(0);
+            }
+            if (passwordField.value.match(upperCaseLetters)) {
+                upperCase.setValue(1);
+            } else {
+                upperCase.setValue(0);
+            }
+            if (passwordField.value.match(numbers)) {
+                hasNumber.setValue(1);
+            } else {
+                hasNumber.setValue(0);
+            }
+            if (passwordField.value.match(specialCharacters)) {
+                specialChar.setValue(1);
+            } else {
+                specialChar.setValue(0);
+            }
+        }
+    </script>
+
+{% endblock %}
